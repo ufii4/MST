@@ -3,6 +3,6 @@ project(MST)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(MST src/main.cpp)
+add_executable(MST src/main.cpp src/Graph.cpp src/Graph.h src/DisjointSet.cpp src/DisjointSet.h)
 
 add_subdirectory(src/tests)
