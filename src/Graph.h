@@ -5,31 +5,29 @@
 #ifndef MST_GRAPH_H
 #define MST_GRAPH_H
 
-struct Edge{
-    Edge() = default;
-
-    Edge(int n1, int n2, double weight);
-
-    int n1;
-    int n2;
-    double weight;
-};
-
-struct Node{
-    int key;
-};
-
 class Graph {
-private:
-    unsigned int n;
-    double **adj;
-    Node *nodes;
-    Edge *edges;
+    friend class GraphTests;
+protected:
+    unsigned int numberOfNodes;
+    double **adjMatrix;
 public:
     Graph() = default;
 
-    Graph(unsigned int n);
+    Graph(unsigned int numberOfNodes);
 
+    ~Graph();
+
+    void init();
+
+    bool insertEdge(unsigned int v1, unsigned int v2, double weight);
+
+    bool rmEdge(unsigned int v1,unsigned int v2);
+
+    unsigned int getEdgeCount();
+
+    unsigned int getDegreeOf(unsigned int vertex);
+
+    double getMSTWeight();
 };
 
 
