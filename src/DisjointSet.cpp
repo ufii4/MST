@@ -21,5 +21,8 @@ void DisjointSet::merge(unsigned int i1, unsigned int i2) {
 
 // x<n
 unsigned int DisjointSet::find(unsigned int x) {
-    return x == nodes[x] ? x : (find(nodes[x]));
+    if (x != nodes[x]){
+        nodes[x] = find(nodes[x]);
+    }
+    return nodes[x];
 }

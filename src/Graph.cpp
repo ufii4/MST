@@ -35,14 +35,9 @@ void Graph::init() {
     }
 }
 
-bool Graph::insertEdge(unsigned int v1, unsigned int v2, double weight) {
-    if (adjMatrix[v1][v2] == INF) {
-        adjMatrix[v1][v2] = weight;
-        adjMatrix[v2][v1] = weight;
-        return true;
-    } else {
-        return false;
-    }
+void Graph::insertEdge(unsigned int v1, unsigned int v2, double weight) {
+    adjMatrix[v1][v2] = weight;
+    adjMatrix[v2][v1] = weight;
 }
 
 bool Graph::rmEdge(unsigned int v1, unsigned int v2) {
@@ -73,7 +68,7 @@ unsigned int Graph::getDegreeOf(unsigned int vertex) {
     return degree;
 }
 
-double Graph::getMSTWeight() {
+bool Graph::tryGetMSTWeight(double &weight) {
     // Sort the matrix
     unsigned int n = numberOfNodes * numberOfNodes;
     pair set[n];
@@ -82,18 +77,29 @@ double Graph::getMSTWeight() {
             set[i * numberOfNodes + j] = pair(i, j, adjMatrix[i][j]);
         }
     }
+//    Using lambda expression to allow fast transformation from descending sort to ascending sort
     insertionSort<pair>(n, set, [](pair a, pair b) {
         return a.weight < b.weight;
     });
 
     DisjointSet DSet(numberOfNodes);
-    double weight = 0;
+    weight = 0;
+    int count = 0; // the number of edges counted
     for (int i = 0; i < n; i++) {
         pair p = set[i];
+        if (p.weight==INF){
+            break;
+        }
         if (DSet.find(p.x) != DSet.find(p.y)) {
+            count++;
             weight += p.weight;
             DSet.merge(p.x, p.y);
         }
     }
-    return weight;
+//    Same as there are nodes that the tree haven't been to, meaning that the graph is not connected.
+    return count == numberOfNodes-1;
+}
+
+unsigned int Graph::getSize() {
+    return numberOfNodes;
 }
