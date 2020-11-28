@@ -11,6 +11,8 @@ public:
 
     DisjointSet(unsigned int n);
 
+    ~DisjointSet();
+
     void merge(unsigned int i1, unsigned int i2);
 
     unsigned int find(unsigned int x);

@@ -5,6 +5,14 @@
 #ifndef MST_GRAPH_H
 #define MST_GRAPH_H
 
+struct pair{
+    pair() = default;
+    pair(unsigned int x, unsigned int y, double weight);
+
+    unsigned int x,y;
+    double weight;
+};
+
 class Graph {
     friend class GraphTests;
 protected:

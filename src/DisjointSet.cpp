@@ -6,6 +6,13 @@
 
 DisjointSet::DisjointSet(unsigned int n) : n(n) {
     nodes = new unsigned int[n];
+    for (int i = 0; i < n; i++) {
+        nodes[i]=i;
+    }
+}
+
+DisjointSet::~DisjointSet() {
+    delete [] nodes;
 }
 
 void DisjointSet::merge(unsigned int i1, unsigned int i2) {
