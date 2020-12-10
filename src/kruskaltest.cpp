@@ -47,7 +47,7 @@ int main() {
                 std::string parameters = cmdLine.substr(pos + 1);
                 if (option == "n") {
                     int n = std::stoi(parameters);
-                    if (n < 0 || graph != nullptr) {
+                    if (n <= 0 || graph != nullptr) {
                         throw InvalidArgument();
                     }
                     graph = new Graph(n);
@@ -76,7 +76,7 @@ int main() {
                     int u = std::stoi(parameters.substr(0, pos));
                     int v = std::stoi(parameters.substr(pos + 1));
                     unsigned int n = graph->getSize();
-                    if (u > n || v >= n || u <= 0 || v < 0) {
+                    if (u > n || v >= n || u < 0 || v < 0) {
                         throw InvalidArgument();
                     }
                     std::cout << (graph->rmEdge(u, v) ? "success" : "failure") << std::endl;

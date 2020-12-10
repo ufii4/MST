@@ -5,11 +5,11 @@
 #ifndef MST_GRAPH_H
 #define MST_GRAPH_H
 
-//The struct pair is used to represent the relationship between two nodes in the graph
-struct pair {
-    pair() = default;
+//The struct edge is used to represent the relationship between two nodes in the graph
+struct edge {
+    edge() = default;
 
-    pair(unsigned int x, unsigned int y, double weight);
+    edge(unsigned int x, unsigned int y, double weight);
 
     unsigned int x, y;
     double weight;
@@ -33,13 +33,13 @@ public:
 
     bool rmEdge(unsigned int v1, unsigned int v2);
 
-    unsigned int getEdgeCount();
+    unsigned int getEdgeCount() const;
 
-    unsigned int getDegreeOf(unsigned int vertex);
+    unsigned int getDegreeOf(unsigned int vertex) const;
 
-    bool tryGetMSTWeight(double &weight);
+    bool tryGetMSTWeight(double &weight) const;
 
-    unsigned int getSize();
+    unsigned int getSize() const;
 };
 
 

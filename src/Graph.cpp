@@ -5,12 +5,12 @@
 #include <limits>
 #include <algorithm>
 #include "Graph.h"
-#include "DisjointSet.h"
 #include "SortingAlgorithms.h"
+#include "DisjointSet.h"
 
 const double INF = std::numeric_limits<double>::infinity();
 
-pair::pair(unsigned int x, unsigned int y, double weight) : x(x), y(y), weight(weight) {}
+edge::edge(unsigned int x, unsigned int y, double weight) : x(x), y(y), weight(weight) {}
 
 Graph::Graph(unsigned int numberOfNodes) : numberOfNodes(numberOfNodes) {
     adjMatrix = new double *[numberOfNodes];
@@ -50,7 +50,7 @@ bool Graph::rmEdge(unsigned int v1, unsigned int v2) {
     }
 }
 
-unsigned int Graph::getEdgeCount() {
+unsigned int Graph::getEdgeCount() const {
     unsigned int numberOfEdges = 0;
     for (int i = 0; i < numberOfNodes; i++) {
         for (int j = i; j < numberOfNodes; j++) {
@@ -60,7 +60,7 @@ unsigned int Graph::getEdgeCount() {
     return numberOfEdges;
 }
 
-unsigned int Graph::getDegreeOf(unsigned int vertex) {
+unsigned int Graph::getDegreeOf(unsigned int vertex) const {
     unsigned int degree = 0;
     for (int i = 0; i < numberOfNodes; i++) {
         degree += adjMatrix[vertex][i] != INF;
@@ -68,25 +68,27 @@ unsigned int Graph::getDegreeOf(unsigned int vertex) {
     return degree;
 }
 
-bool Graph::tryGetMSTWeight(double &weight) {
+bool Graph::tryGetMSTWeight(double &weight) const {
     // Sort the matrix
-    unsigned int n = numberOfNodes * numberOfNodes;
-    pair set[n];
+    unsigned int n = numberOfNodes*(numberOfNodes+1)/2;
+    edge set[n];
+    unsigned int i1 = 0;
     for (unsigned int i = 0; i < numberOfNodes; i++) {
-        for (unsigned int j = 0; j < numberOfNodes; j++) {
-            set[i * numberOfNodes + j] = pair(i, j, adjMatrix[i][j]);
+        for (unsigned int j = i; j < numberOfNodes; j++) {
+            set[i1] = edge(i, j, adjMatrix[i][j]);
+            i1++;
         }
     }
 //    Using lambda expression to allow fast transformation from descending sort to ascending sort
-    insertionSort<pair>(n, set, [](pair a, pair b) {
-        return a.weight < b.weight;
+    Heap<edge>::heapSort(n, set, [](edge a, edge b) {
+        return a.weight > b.weight;
     });
 
     DisjointSet DSet(numberOfNodes);
     weight = 0;
     int count = 0; // the number of edges counted
     for (int i = 0; i < n; i++) {
-        pair p = set[i];
+        edge p = set[i];
         if (p.weight==INF){
             break;
         }
@@ -96,10 +98,11 @@ bool Graph::tryGetMSTWeight(double &weight) {
             DSet.merge(p.x, p.y);
         }
     }
+
 //    Same as there are nodes that the tree haven't been to, meaning that the graph is not connected.
     return count == numberOfNodes-1;
 }
 
-unsigned int Graph::getSize() {
+unsigned int Graph::getSize() const {
     return numberOfNodes;
 }

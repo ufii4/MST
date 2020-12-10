@@ -1,9 +1,10 @@
 //
-// Created by pcxie on 2020/11/27.
+// Created by pcxie on 2020/12/3.
 //
 
 #ifndef MST_DISJOINTSET_H
 #define MST_DISJOINTSET_H
+
 
 class DisjointSet {
 public:

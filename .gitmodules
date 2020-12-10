@@ -1,3 +1,6 @@
 [submodule "src/tests/lib"]
 	path = src/tests/lib
 	url = https://github.com/google/googletest.git
+[submodule "src/LinkedList"]
+	path = src/LinkedList
+	url = https://github.com/ufii4/LinkedList.git
