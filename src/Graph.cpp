@@ -61,7 +61,7 @@ unsigned int Graph::getEdgeCount() const {
 }
 
 unsigned int Graph::getDegreeOf(unsigned int vertex) const {
-    unsigned int degree = 0;
+    unsigned int degree = adjMatrix[vertex][vertex] != INF ? 1:0;
     for (int i = 0; i < numberOfNodes; i++) {
         degree += adjMatrix[vertex][i] != INF;
     }
